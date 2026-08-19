@@ -1,0 +1,45 @@
+services:
+  # FastAPI Backend Web Service
+  - type: web
+    name: sardaarji-dhaba-api
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: CORS_ORIGINS
+        value: "[\"*\"]"
+      - key: DHABA_PHONE
+        value: "+91 9838075251"
+      - key: DHABA_PHONE_RAW
+        value: "919838075251"
+      - key: DHABA_WHATSAPP_NUMBER
+        value: "919838075251"
+      - key: DHABA_EMAIL
+        value: "shiwanshtiwari12@gmail.com"
+      - key: DATABASE_URL
+        sync: false
+
+  # React / Vite Static Site Frontend
+  - type: web
+    name: sardaarji-dhaba-frontend
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: "npm install && npm run build"
+    staticPublishPath: "./dist"
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: sardaarji-dhaba-api
+          property: host
