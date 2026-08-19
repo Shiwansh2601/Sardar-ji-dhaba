@@ -32,6 +32,7 @@ export type MenuItem = {
   popular?: boolean;
   spicy?: boolean;
   image?: string;
+  image_url?: string;
 };
 
 export type MenuCategory = {

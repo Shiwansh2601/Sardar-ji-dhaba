@@ -1,6 +1,7 @@
 import { BRAND, MENU_CATEGORIES, MenuCategory, MenuItem } from "../components/data";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+const rawBaseUrl = (import.meta.env.VITE_API_URL || "").trim();
+const API_BASE_URL = rawBaseUrl.replace(/\/+$/, "");
 
 export interface BusinessConfig {
   name: string;
@@ -103,7 +104,10 @@ export interface EnquiryResponse {
  * Helper to handle fetch requests with graceful error fallback.
  */
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}${url}`, {
+  const normalizedUrl = url.startsWith("/") ? url : `/${url}`;
+  const fullUrl = `${API_BASE_URL}${normalizedUrl}`;
+
+  const res = await fetch(fullUrl, {
     ...options,
     headers: {
       "Content-Type": "application/json",

@@ -48,11 +48,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Configure CORS
+# Configure CORS for 100% production compatibility across Vercel, Netlify, localhost, and custom domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

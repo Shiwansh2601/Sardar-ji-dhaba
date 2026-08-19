@@ -53,7 +53,9 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
             <div>
               <div className="flex items-center gap-1.5">
                 <p className="font-bold text-foreground text-base leading-tight">{review.name}</p>
-                <CheckCircle2 size={15} className="text-emerald-500 flex-shrink-0" title="Verified Customer" />
+                <span title="Verified Customer" className="inline-flex">
+                  <CheckCircle2 size={15} className="text-emerald-500 flex-shrink-0" />
+                </span>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5">{review.date} · via {review.source}</p>
             </div>
